@@ -29,7 +29,8 @@ void anExp():              {} {   <cteEntera>
                                   |<cteReal>                                            }
                                                                                                                              
 
-TOKEN: { < # letra : ["a"-"z","ñ"] > }
+TOKEN: { < # letramin : ["a"-"z","ñ"] > }
+TOKEN: { < # letramay : [A"-"Z","Ñ"] > }
 TOKEN: { < # sincero : ["1"-"9"]> } 
 TOKEN: { < # digito : ["0"-"9"]> } 
 TOKEN: { < # entera : ("0"<sincero>(<digito>)*)| "0"|( <sincero>(<digito>)*) > }
@@ -38,14 +39,17 @@ TOKEN: { < # alfabetosintab: ~["\t","\n","\r"]>  }
 TOKEN: { < # finLinea: "\n"|"\r\n">  } 
 TOKEN: { < # blancos: ["\t"," "]>  } 
 
-TOKEN: { < entero : "int" >                                                   |                           	   
-         < real : "float" >                                                   |                                                       
+TOKEN: { < entero : "integer" >                                               |                           	   
+         < real : "double" >                                                  |
+		 < cadena : "String" >                                                |	
+		 < logico : "boolean" >                                               |
+		 < caracter : "char" >                                                |	
+		 < programa: "PROGRAMA"												  |
+		 < constante: "CONSTANTE"												  |
          < id : <letra> (<letra>|"_" |<digito>)* >                            |              
          < asignar : "=" >                                                    |         
          < cteEntera : <entera> >                                             |                                    
          < cteReal : <entera> <punto> (<digito>)+  >                 |
          < llaveabrir : "{" >                                                 |
          < llavecerrar : "}" >                                                }    
-
-SKIP: { <   "--"  (<alfabetosintab>)+   <finLinea>   >                        }
-SKIP:  {< " " | "\t" | "\n" | "\r\n" >                                        }  
+ 
