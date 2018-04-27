@@ -1,0 +1,51 @@
+
+options {Ignore_Case = true; }
+
+PARSER_BEGIN (Analizador)
+public class Analizador {
+
+public static void main (String [] args) throws ParseException {
+Analizador anLexSint = new Analizador (System.in);
+anLexSint.anProgram();
+System.out.println("Fichero analizado");
+System.out.println("No se han detectado errores léxico-sintácticos");
+}}
+PARSER_END (Analizador)
+
+void anProgram():             {} {   <id> <llaveabrir> anCuerpo() <llavecerrar> <EOF>  }
+           
+void anCuerpo():              {} {   [ anSentencia() ";" anCuerpo() ]                  }
+
+void anTipoPrimitivo():       {} {   <entero>
+                                     |<real>                                           }
+                                     
+void anSentencia():           {} {    <id> anRestoSentencia()    
+                                      | anTipoPrimitivo()  <id>                        }					 
+									 
+void anRestoSentencia():      {} {  <id>  
+                                   | <asignar>  anExp()                                 }			
+								   
+void anExp():              {} {   <cteEntera>
+                                  |<cteReal>                                            }
+                                                                                                                             
+
+TOKEN: { < # letra : ["a"-"z","ñ"] > }
+TOKEN: { < # sincero : ["1"-"9"]> } 
+TOKEN: { < # digito : ["0"-"9"]> } 
+TOKEN: { < # entera : ("0"<sincero>(<digito>)*)| "0"|( <sincero>(<digito>)*) > }
+TOKEN: { < # punto: "."> } 
+TOKEN: { < # alfabetosintab: ~["\t","\n","\r"]>  } 
+TOKEN: { < # finLinea: "\n"|"\r\n">  } 
+TOKEN: { < # blancos: ["\t"," "]>  } 
+
+TOKEN: { < entero : "int" >                                                   |                           	   
+         < real : "float" >                                                   |                                                       
+         < id : <letra> (<letra>|"_" |<digito>)* >                            |              
+         < asignar : "=" >                                                    |         
+         < cteEntera : <entera> >                                             |                                    
+         < cteReal : <entera> <punto> (<digito>)+  >                 |
+         < llaveabrir : "{" >                                                 |
+         < llavecerrar : "}" >                                                }    
+
+SKIP: { <   "--"  (<alfabetosintab>)+   <finLinea>   >                        }
+SKIP:  {< " " | "\t" | "\n" | "\r\n" >                                        }  
