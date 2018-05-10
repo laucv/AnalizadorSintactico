@@ -12,44 +12,60 @@ System.out.println("No se han detectado errores léxico-sintácticos");
 }}
 PARSER_END (Analizador)
 
-void anProgram():             {} {   <programa> <id> ";" anConstant() anVariable() anSubprogram() <EOF>  }
+void anProgram():             {} {   <programa> <id> ";" anConstant() anVariable() anSubprogram() <punto> <EOF>  }
            
 void anConstant():              {} { [<constante> (<id> <asignar> (<id> |
-																  anExp() ) ";")+ ] }
+																  anCteAnonima() ) ";")+ ] }
 
-void anVariable():              {} { [<variable> <idVar> [<asignarVar> [<idVar> |
-																		anExp() ] ( <coma> <idVar> [<asignarVar> [<idVar> |
-																												  anExp() ] ] )* ] ":" anTipoPrimitivo() ] ";" }
+void anVariable():              {} { [<variable> <id> [<asignarVar> <id> ]( <coma> <id> [<asignarVar> <id> ] )* asignaTipo()  ";"] }
 
-void anSubprogram():              {} { [<subPrograma> <id> (<parAbrir> (<id>)(asignaTipo())* ";" )* <inicio> ( anAsignacion() | 
-																										  anLlamadaSub() 	| 
-																										  anLectura()		| 
-																										  anEscritura() 	)* <retorno> anExp() <fin> <punto> ] }
+void anSubprogram():              {} { (<subPrograma> <id> parentesis()  [ asignaTipo() ] ";" (<inicio> operacion() funcionRetorno() <fin> ";" )+ )* }
 																										  
-void asignaTipo(): 		{} {":" anTipoPrimitivo() }
 
+void asignaTipo(): 		{} {":" anTipoPrimitivo()  }
+
+void parentesis(): {} { [<parAbrir> <id>[asignaTipo()] ( <coma> <id> [asignaTipo()] )* <parCerrar> ]}
+
+void funcionRetorno(): {} { [<retorno> anCteAnonima() ";"] }
+
+void operacion(): {} { ( ( <id> (anAsignacion()   | anLlamadaSub() 	) )| 
+															anLectura()		|  
+															anEscritura() 	)* }
 void anTipoPrimitivo():       {} {   <entero>
                                      |<real>  
-                                     |<cadena> 
+                                     |<cad> 
                                      |<logico> 
-                                     |<caracter> }
+                                     |<car> }
                                      
 
-void anLectura():           {} {   <leer> <parAbrir> [ <id> ( <coma> <id> )* ] <parCerrar>        }					 
+void anLectura():           {} {   <leer> <parAbrir> <id> ( <coma> <id> )* <parCerrar> ";"       }					 
 									 
-void anEscritura():      {} {  <escribir> <parAbrir> [ <id> ( <coma> <id> )* ] <parCerrar>         }		
+void anEscritura():      {} {  <escribir> <parAbrir> [ anExp() ( <coma> anExp() )* ] <parCerrar>  ";"      }
 
-void anAsignacion(): {} { <idVar> <asignarVar> anExp() ";"}
+void anAsignacion(): {} { <asignarVar> anExp() ";"}
 
-void anLlamadaSub(): {} { <id> <parAbrir> [ <id> ( <coma> <id> )* ] <parCerrar> }								   
+void anLlamadaSub(): {} { <parAbrir> [ <id> ( <coma> <id> )* ] <parCerrar> ";"}								   
 								   
-void anExp():              {} {   <cteEntera>
+void anCteAnonima():              {} {   <cteEntera>
                                   |<cteReal>
                                   |anLiteralLogico()	
                                   |<literalCadena>	
                                   |<literalCaracter> }
                                                                                                                              
 void anLiteralLogico(): {} { <verdad> | <mentira> }
+void anExp(): 				{} { anTermino1() [anOperando3() anExp()]													}
+
+void anTermino1(): 				{} { anTermino2() [anOperando2() anTermino1()]												}
+
+void anTermino2():				{} { anFactor() [anOperando1() anTermino2()]												}
+
+void anFactor(): 				{} { ( <parAbrir> anExp() <parCerrar> ) | <id> | anCteAnonima() 		 					}
+
+void anOperando1():				{} { <operadorAND> | <operadorPor> | <operadorEntre>										}
+ 
+void anOperando2():				{} { <operadorOR> | <operadorMenos> | <operadorMas>											}
+
+void anOperando3(): 			{} { <opIgual> | <opDistinto> | <opMayor> | <opMenor> | <opMayorI> | <opMenorI>				}
 
 TOKEN: { < # letramin: ["a"-"z","ñ"] > }
 TOKEN: { < # letramay: ["A"-"Z","Ñ"] > }
@@ -57,17 +73,19 @@ TOKEN: { < # letras: ["A"-"Z","Ñ","a"-"z","ñ"] > }
 TOKEN: { < # sincero: ["1"-"9"]> } 
 TOKEN: { < # digito: ["0"-"9"]> } 
 TOKEN: { < # entera: ("0"<sincero>(<digito>)*)| "0"|( <sincero>(<digito>)*) > }
-TOKEN: { < # alfabetosintab: ~["\t","\n","\r"]>  } 
+TOKEN: { < # caracter: ~["\'"]>  }
+TOKEN: { < # cadena: ~["\'"]>  }
 TOKEN: { < # finLinea: "\n"|"\r\n">  } 
 TOKEN: { < # blancos: ["\t"," "]>  } 
-TOKEN: { <  #comentario: "//" > }
+TOKEN: { < # comentario: "//" > }
+TOKEN: { < # comen: ~["\n","\r"]>  }
 
 
 TOKEN: { < entero : "integer" >                                             |                           	   
          < real : "double" >                                                |
-		 < cadena : "String" >                                              |	
+		 < cad : "String" >                                             	|	
 		 < logico : "boolean" >                                             |
-		 < caracter : "char" >                                              |	
+		 < car : "char" >                                              		|	
 		 < programa: "PROGRAMA"	>											|
 		 < constante: "CONSTANTES" >  										|
 		 < variable: "VARIABLES" >  										|
@@ -79,8 +97,8 @@ TOKEN: { < entero : "integer" >                                             |
          < cteReal : <entera> <punto> (<digito>)+  >                 		|
 		 < verdad: "TRUE" >													|
 		 < mentira: "FALSE" >												|
-		 < literalCaracter: "\'" <alfabetosintab> "\'" > 					|
-		 < literalCadena: "\"" (<alfabetosintab>)* "\"" >					| 
+		 < literalCaracter: "'" <caracter> "'" > 							|
+		 < literalCadena: "\"" (<cadena>)* "\"" >							| 
 		 < leer: "LEER" > 													|
 		 < escribir: "ESCRIBIR" >											|
 		 < parAbrir: "(" > 													|
@@ -89,11 +107,18 @@ TOKEN: { < entero : "integer" >                                             |
 		 < asignarVar: ":=" >												|
 		 < coma: "," >														|
 		 < punto: "." >														|
-		 < suma: "+" >   													|
-		 < resta: "-" >   													|
-		 < mult: "*" >   													|
-		 < div: "/" >   													|
-		 < idVar: <letramin> >   											|
+		 < operadorAND: "AND" >												  |
+		 < operadorOR: "OR" >												  |
+		 < operadorMas: "+" >											 	  |
+		 < operadorMenos: "-" >												  |
+		 < operadorPor: "*" >												  |
+		 < operadorEntre: "/" >												  |
+		 < opIgual:"=="	>													  |
+		 < opDistinto: "<>" >												  |
+		 < opMayor: ">" >												  	  |	
+		 < opMenor: "<" >												      |
+		 < opMenorI: "<=" >											  		  |
+		 < opMayorI: ">=" >											  		  |
 		 < id : <letras> (<letras>|"_" |<digito>)* > 						}    
 		                                          
- SKIP:  {< " " | "\t" | "\n" | "\r\n" | (<comentario> (<alfabetosintab>)+) >    }  
+ SKIP:  {< " " | "\t" | "\n" | "\r\n" | "\r" | (<comentario> (<comen>)+) >    }  
