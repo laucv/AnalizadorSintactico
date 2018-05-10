@@ -12,17 +12,20 @@ System.out.println("No se han detectado errores léxico-sintácticos");
 }}
 PARSER_END (Analizador)
 
-void anProgram():             {} {   <programa> <id> ";" anConstant() anVariable() anSubprogram() <punto> <EOF>  }
+void anProgram():             {} {   <programa> <id> ";" anConstant() anVariable() anSubprogram() anCuerpo() <punto> <EOF>  }
            
 void anConstant():              {} { [<constante> (<id> <asignar> (<id> |
 																  anCteAnonima() ) ";")+ ] }
 
 void anVariable():              {} { [<variable> <id> [<asignarVar> <id> ]( <coma> <id> [<asignarVar> <id> ] )* asignaTipo()  ";"] }
 
-void anSubprogram():              {} { (<subPrograma> <id> parentesis()  [ asignaTipo() ] ";" (<inicio> operacion() funcionRetorno() <fin> ";" )+ )* }
+void anSubprogram():              {} { (<subPrograma> <id> parentesis()  [ asignaTipo() ] ";" anCuerpo() ";" )* }
 																										  
 
+
 void asignaTipo(): 		{} {":" anTipoPrimitivo()  }
+
+void anCuerpo(): {} { <inicio> operacion() funcionRetorno() <fin>}
 
 void parentesis(): {} { [<parAbrir> <id>[asignaTipo()] ( <coma> <id> [asignaTipo()] )* <parCerrar> ]}
 
