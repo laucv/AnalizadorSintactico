@@ -17,7 +17,7 @@ void anProgram():             {} {   <programa> <id> ";" anConstant() anVariable
 void anConstant():              {} { [<constante> (<id> <asignar> (<id> |
 																  anCteAnonima() ) ";")+ ] }
 
-void anVariable():              {} { [<variable> <id> [<asignarVar> <id> ]( <coma> <id> [<asignarVar> <id> ] )* asignaTipo()  ";"] }
+void anVariable():              {} { [<variable> (<id> [<asignarVar> anCteAnonima() ]( <coma> <id> [<asignarVar> anCteAnonima() ] )* asignaTipo()  ";")* ] }
 
 void anSubprogram():              {} { (<subPrograma> <id> parentesis()  [ asignaTipo() ] ";" anCuerpo() ";" )* }
 																										  
@@ -76,11 +76,11 @@ TOKEN: { < # letras: ["A"-"Z","Ñ","a"-"z","ñ"] > }
 TOKEN: { < # sincero: ["1"-"9"]> } 
 TOKEN: { < # digito: ["0"-"9"]> } 
 TOKEN: { < # entera: ("0"<sincero>(<digito>)*)| "0"|( <sincero>(<digito>)*) > }
-TOKEN: { < # caracter: ~["\'"]>  }
-TOKEN: { < # cadena: ~["\'"]>  }
+TOKEN: { < # caracter: ~["'"]>  }
 TOKEN: { < # finLinea: "\n"|"\r\n">  } 
 TOKEN: { < # blancos: ["\t"," "]>  } 
 TOKEN: { < # comentario: "//" > }
+TOKEN: { < # cadena: (~["\n","\r"]) | ("\\\"") >  }
 TOKEN: { < # comen: ~["\n","\r"]>  }
 
 
@@ -100,8 +100,8 @@ TOKEN: { < entero : "integer" >                                             |
          < cteReal : <entera> <punto> (<digito>)+  >                 		|
 		 < verdad: "TRUE" >													|
 		 < mentira: "FALSE" >												|
-		 < literalCaracter: "'" <caracter> "'" > 							|
-		 < literalCadena: "\"" (<cadena>)* "\"" >							| 
+		 < literalCaracter: ("'" <caracter> "'") | ("'" "\\'" "'") > 		|
+		 < literalCadena: "\"" (<cadena>)* "\"" >	| 
 		 < leer: "LEER" > 													|
 		 < escribir: "ESCRIBIR" >											|
 		 < parAbrir: "(" > 													|
