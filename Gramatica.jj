@@ -17,21 +17,21 @@ void anProgram():             {} {   <programa> <id> ";" anConstant() anVariable
 void anConstant():              {} { [<constante> (<id> <asignar> (<id> |
 																  anCteAnonima() ) ";")+ ] }
 
-void anVariable():              {} { [<variable> (<id> [<asignarVar> anCteAnonima() ]( <coma> <id> [<asignarVar> anCteAnonima() ] )* asignaTipo()  ";")* ] }
+void anVariable():              {} { [<variable> (<id> [<asignarVar> anCteAnonima() ]( <coma> <id> [<asignarVar> anCteAnonima() ] )* asignaTipo()  ";")+ ] }
 
-void anSubprogram():              {} { (<subPrograma> <id> parentesis()  [ asignaTipo() ] ";" anCuerpo() ";" )* }
+void anSubprogram():              {} { (<subPrograma> <id> anParentesisVar()  [ asignaTipo() ] ";" anCuerpo() ";" )* }
 																										  
 
 
 void asignaTipo(): 		{} {":" anTipoPrimitivo()  }
 
-void anCuerpo(): {} { <inicio> operacion() funcionRetorno() <fin>}
+void anCuerpo(): {} { <inicio> anOperacion() anRetorno() <fin>}
 
-void parentesis(): {} { [<parAbrir> <id>[asignaTipo()] ( <coma> <id> [asignaTipo()] )* <parCerrar> ]}
+void anParentesisVar(): {} { [<parAbrir> <id>[asignaTipo()] ( <coma> <id> [asignaTipo()] )* <parCerrar> ]}
 
-void funcionRetorno(): {} { [<retorno> anCteAnonima() ";"] }
+void anRetorno(): {} { [<retorno> anCteAnonima() ";"] }
 
-void operacion(): {} { ( ( <id> (anAsignacion()   | anLlamadaSub() 	) )| 
+void anOperacion(): {} { ( ( <id> (anAsignacion()   | anLlamadaSub() 	) )| 
 															anLectura()		|  
 															anEscritura() 	)* }
 void anTipoPrimitivo():       {} {   <entero>
@@ -47,28 +47,29 @@ void anEscritura():      {} {  <escribir> <parAbrir> [ anExp() ( <coma> anExp() 
 
 void anAsignacion(): {} { <asignarVar> anExp() ";"}
 
-void anLlamadaSub(): {} { <parAbrir> [ <id> ( <coma> <id> )* ] <parCerrar> ";"}								   
+void anLlamadaSub(): {} { [<parAbrir> [ <id> ( <coma> <id> )* ] <parCerrar> ]";"}								   
 								   
 void anCteAnonima():              {} {   <cteEntera>
-                                  |<cteReal>
+								  |<cteReal>
                                   |anLiteralLogico()	
                                   |<literalCadena>	
                                   |<literalCaracter> }
                                                                                                                              
 void anLiteralLogico(): {} { <verdad> | <mentira> }
-void anExp(): 				{} { anTermino1() [anOperando3() anExp()]													}
 
-void anTermino1(): 				{} { anTermino2() [anOperando2() anTermino1()]												}
+void anExp(): 				{} { anTermino1() [anOperador3() anExp()]													}
 
-void anTermino2():				{} { anFactor() [anOperando1() anTermino2()]												}
+void anTermino1(): 				{} { anTermino2() [anOperador2() anTermino1()]												}
+
+void anTermino2():				{} { anFactor() [anOperador1() anTermino2()]												}
 
 void anFactor(): 				{} { ( <parAbrir> anExp() <parCerrar> ) | <id> | anCteAnonima() 		 					}
 
-void anOperando1():				{} { <operadorAND> | <operadorPor> | <operadorEntre>										}
+void anOperador1():				{} { <yLogico> | <multiplicacion> | <division>										}
  
-void anOperando2():				{} { <operadorOR> | <operadorMenos> | <operadorMas>											}
+void anOperador2():				{} { <oLogico> | <menos> | <mas>											}
 
-void anOperando3(): 			{} { <opIgual> | <opDistinto> | <opMayor> | <opMenor> | <opMayorI> | <opMenorI>				}
+void anOperador3(): 			{} { <igual> | <distinto> | <mayor> | <menor> | <mayorIgual> | <menorIgual>				}
 
 TOKEN: { < # letramin: ["a"-"z","ñ"] > }
 TOKEN: { < # letramay: ["A"-"Z","Ñ"] > }
@@ -110,18 +111,18 @@ TOKEN: { < entero : "integer" >                                             |
 		 < asignarVar: ":=" >												|
 		 < coma: "," >														|
 		 < punto: "." >														|
-		 < operadorAND: "AND" >												  |
-		 < operadorOR: "OR" >												  |
-		 < operadorMas: "+" >											 	  |
-		 < operadorMenos: "-" >												  |
-		 < operadorPor: "*" >												  |
-		 < operadorEntre: "/" >												  |
-		 < opIgual:"=="	>													  |
-		 < opDistinto: "<>" >												  |
-		 < opMayor: ">" >												  	  |	
-		 < opMenor: "<" >												      |
-		 < opMenorI: "<=" >											  		  |
-		 < opMayorI: ">=" >											  		  |
+		 < yLogico: "AND" >												  |
+		 < oLogico: "OR" >												  |
+		 < mas: "+" >											 	  |
+		 < menos: "-" >												  |
+		 < multiplicacion: "*" >												  |
+		 < division: "/" >												  |
+		 < igual:"=="	>													  |
+		 < distinto: "<>" >												  |
+		 < mayor: ">" >												  	  |	
+		 < menor: "<" >												      |
+		 < menorIgual: "<=" >											  		  |
+		 < mayorIgual: ">=" >											  		  |
 		 < id : <letras> (<letras>|"_" |<digito>)* > 						}    
 		                                          
  SKIP:  {< " " | "\t" | "\n" | "\r\n" | "\r" | (<comentario> (<comen>)+) >    }  
