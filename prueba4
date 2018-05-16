@@ -1,0 +1,7 @@
+PROGRAMA ejemplo ;
+SUBPROGRAMA ejemplo_1 : char ;
+INICIO
+return FALSE;
+FIN;
+INICIO
+FIN.

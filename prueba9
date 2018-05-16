@@ -1,0 +1,17 @@
+PROGRAMA ejemplo ;
+VARIABLES
+x:=0,y,z:=" ": String;
+x:=0,y,z:=' ':char;
+INICIO
+
+ESCRIBIR ( uno 
+);
+cuatro := dos*10.0*TRUE*tres+0.0+FALSE;
+ESCRIBIR();
+ESCRIBIR (dos* (10.0+0+0.0)
+,
+uno );
+/////////-
+LEER ( uno);
+return FALSE;
+FIN.

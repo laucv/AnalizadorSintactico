@@ -1,0 +1,14 @@
+PROGRAMA ejemplo ;
+INICIO
+ESCRIBIR(tres_3,dos2);
+LEER ( dos //- es un comentario hasta final de línea
+);
+Cinco := dos*39.0 AND FALSE*tres/0.7-TRUE;
+LEER(Voldemort);
+ESCRIBIR (quince* (5.0+0+0.0+
+tres),
+uno );
+/////////-
+LEER ( uno);
+return TRUE;
+FIN.

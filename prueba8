@@ -1,0 +1,31 @@
+PROGRAMA ejemplo ;
+CONSTANTES
+entera = 01;
+real = 0.0;
+cierto = TRUE;
+blanco = " ";
+comillas = "\"";
+no = '\'';
+SUBPROGRAMA ej : char ;
+INICIO
+return TRUE;
+FIN;
+SUBPROGRAMA ex (var1:String) ;
+INICIO
+ej;
+FIN ;
+INICIO
+LEER(uno_1,dos2);
+LEER ( Harry //Potter
+);
+Uno := dos*10.0*TRUE*tres+0.0+FALSE;
+
+//Cuando cruzas una raya esta deja de tener sentido
+ESCRIBIR(SiNoDespierto, LaurenOliver*TRUE+mejor/libro);
+ESCRIBIR (dos* (10.0+0+0.0+
+tres),
+uno );
+/////////-
+LEER ( uno);
+return FALSE;
+FIN.

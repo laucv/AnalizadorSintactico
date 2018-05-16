@@ -1,0 +1,16 @@
+PROGRAMA ejemplo ;
+SUBPROGRAMA segundo (par_1,par_2:String) ;
+INICIO
+LEER(uno_1,dos2);
+FIN ;
+INICIO
+LEER(uno_1,dos2);
+LEER ( uno //- es un comentario hasta final de línea
+);
+
+ESCRIBIR(dos*10.0*TRUE*tres+0.0+FALSE);
+Uno := "Who must not be named is comming after you, Mr. Potter";
+/////////-
+LEER ( uno);
+return FALSE;
+FIN.

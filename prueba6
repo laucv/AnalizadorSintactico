@@ -1,0 +1,4 @@
+PROGRAMA ejemplo ;
+INICIO
+return FALSE;
+FIN.

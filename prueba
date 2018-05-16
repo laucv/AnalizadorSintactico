@@ -1,0 +1,32 @@
+PROGRAMA ejemplo ;
+CONSTANTES
+entera = 01;
+real = 0.0;
+cierto = TRUE;
+blanco = " ";
+comillas = "\"";
+no = '\'';
+VARIABLES
+x:=0,y,z:=" ": String;
+x:=0,y,z:=' ':char;
+SUBPROGRAMA primero : char ; //un comentario
+INICIO
+return TRUE;
+FIN;
+SUBPROGRAMA segundo (par_1,par_2:String) ;
+INICIO
+LEER(uno_1,dos2);
+FIN ;
+INICIO
+LEER(uno_1,dos2);
+LEER ( uno 
+);
+Uno := dos*10.0*TRUE*tres+0.0+FALSE;
+ESCRIBIR();
+ESCRIBIR (en AND ellos OR
+reside,
+el, (sentido) );
+/////////-
+LEER ( uno);
+return FALSE;
+FIN.
