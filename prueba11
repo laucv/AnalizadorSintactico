@@ -1,6 +1,6 @@
 PROGRAMA ejemplo ;
 CONSTANTES
-entero = 01;
+entero = 1;
 real = 0.0;
 falso  = FALSE; //comentario a ignorar
 blanco = " ";
@@ -20,8 +20,8 @@ FIN ;
 INICIO
 LEER(uno_1,dos2);
 LEER ( cinco
-);
-Uno := siete/10.0 OR TRUE+tres+0.0+FALSE;
+);//Draco dormiens nunquam titillandus
+Uno := siete>10.0>TRUE+tres+0.0+FALSE;
 ESCRIBIR();
 ESCRIBIR (dos* (10.0/0.0+
 tres),

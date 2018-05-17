@@ -1,10 +1,5 @@
 PROGRAMA ejemplo ;
 CONSTANTES
-entera = 01;
-real = 0.0;
-falso = FALSE;
-blanco = " ";
-comillasDobles = "\"";
-comillasSimples = '\'';
+entero = 1;
 INICIO
 FIN.

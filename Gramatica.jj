@@ -1,4 +1,3 @@
-
 options {Ignore_Case = true; }
 
 PARSER_BEGIN (Analizador)
@@ -11,6 +10,7 @@ System.out.println("Fichero analizado");
 System.out.println("No se han detectado errores léxico-sintácticos");
 }}
 PARSER_END (Analizador)
+
 
 void anProgram():             {} {   <programa> <id> ";" anConstant() anVariable() anSubprogram() anCuerpo() <punto> <EOF>  }
            
@@ -27,7 +27,7 @@ void asignaTipo(): 		{} {":" anTipoPrimitivo()  }
 
 void anCuerpo(): {} { <inicio> anOperacion() anRetorno() <fin>}
 
-void anParentesisVar(): {} { [<parAbrir> <id>[asignaTipo()] ( <coma> <id> [asignaTipo()] )* <parCerrar> ]}
+void anParentesisVar(): {} { [<parAbrir> <id> ( <coma> <id> )* [asignaTipo()] <parCerrar> ]}
 
 void anRetorno(): {} { [<retorno> anCteAnonima() ";"] }
 
@@ -47,7 +47,7 @@ void anEscritura():      {} {  <escribir> <parAbrir> [ anExp() ( <coma> anExp() 
 
 void anAsignacion(): {} { <asignarVar> anExp() ";"}
 
-void anLlamadaSub(): {} { [<parAbrir> [ <id> ( <coma> <id> )* ] <parCerrar> ]";"}								   
+void anLlamadaSub(): {} { [<parAbrir> <id> ( <coma> <id> )*  <parCerrar> ]";"}								   
 								   
 void anCteAnonima():              {} {   <cteEntera>
 								  |<cteReal>
@@ -57,11 +57,11 @@ void anCteAnonima():              {} {   <cteEntera>
                                                                                                                              
 void anLiteralLogico(): {} { <verdad> | <mentira> }
 
-void anExp(): 				{} { anTermino1() [anOperador3() anExp()]													}
+void anExp(): 				{} { anExpSimple() [anOperador3() anExpSimple()]													}
 
-void anTermino1(): 				{} { anTermino2() [anOperador2() anTermino1()]												}
+void anExpSimple(): 				{} { anTermino() [anOperador2() anExpSimple()]												}
 
-void anTermino2():				{} { anFactor() [anOperador1() anTermino2()]												}
+void anTermino():				{} { anFactor() [anOperador1() anTermino()]												}
 
 void anFactor(): 				{} { ( <parAbrir> anExp() <parCerrar> ) | <id> | anCteAnonima() 		 					}
 
@@ -76,8 +76,8 @@ TOKEN: { < # letramay: ["A"-"Z","Ñ"] > }
 TOKEN: { < # letras: ["A"-"Z","Ñ","a"-"z","ñ"] > }
 TOKEN: { < # sincero: ["1"-"9"]> } 
 TOKEN: { < # digito: ["0"-"9"]> } 
-TOKEN: { < # entera: ("0"<sincero>(<digito>)*)| "0"|( <sincero>(<digito>)*) > }
-TOKEN: { < # caracter: ~["'"]>  }
+TOKEN: { < # entera: (<digito>)+ > }
+TOKEN: { < # caracter: (~["'"])| ("\\'")>  }
 TOKEN: { < # finLinea: "\n"|"\r\n">  } 
 TOKEN: { < # blancos: ["\t"," "]>  } 
 TOKEN: { < # comentario: "//" > }
@@ -101,8 +101,8 @@ TOKEN: { < entero : "integer" >                                             |
          < cteReal : <entera> <punto> (<digito>)+  >                 		|
 		 < verdad: "TRUE" >													|
 		 < mentira: "FALSE" >												|
-		 < literalCaracter: ("'" <caracter> "'") | ("'" "\\'" "'") > 		|
-		 < literalCadena: "\"" (<cadena>)* "\"" >	| 
+		 < literalCaracter: ("'" <caracter> "'") > 							|
+		 < literalCadena: "\"" (<cadena>)* "\"" >							| 
 		 < leer: "LEER" > 													|
 		 < escribir: "ESCRIBIR" >											|
 		 < parAbrir: "(" > 													|
@@ -111,18 +111,18 @@ TOKEN: { < entero : "integer" >                                             |
 		 < asignarVar: ":=" >												|
 		 < coma: "," >														|
 		 < punto: "." >														|
-		 < yLogico: "AND" >												  |
-		 < oLogico: "OR" >												  |
-		 < mas: "+" >											 	  |
-		 < menos: "-" >												  |
-		 < multiplicacion: "*" >												  |
-		 < division: "/" >												  |
-		 < igual:"=="	>													  |
-		 < distinto: "<>" >												  |
-		 < mayor: ">" >												  	  |	
-		 < menor: "<" >												      |
-		 < menorIgual: "<=" >											  		  |
-		 < mayorIgual: ">=" >											  		  |
+		 < yLogico: "AND" >												    |
+		 < oLogico: "OR" >												    |
+		 < mas: "+" >											 	        |
+		 < menos: "-" >												  		|
+		 < multiplicacion: "*" >											|
+		 < division: "/" >												    |
+		 < igual:"=="	>													|
+		 < distinto: "<>" >												    |
+		 < mayor: ">" >												  	    |	
+		 < menor: "<" >												        |
+		 < menorIgual: "<=" >											  	|
+		 < mayorIgual: ">=" >											  	|
 		 < id : <letras> (<letras>|"_" |<digito>)* > 						}    
 		                                          
  SKIP:  {< " " | "\t" | "\n" | "\r\n" | "\r" | (<comentario> (<comen>)+) >    }  

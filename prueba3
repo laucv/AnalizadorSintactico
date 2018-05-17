@@ -1,6 +1,5 @@
 PROGRAMA ejemplo ;
 VARIABLES
 x:=0,y,z:=" ": String;
-x:='0',y,z:=' ':char;
 INICIO
 FIN.

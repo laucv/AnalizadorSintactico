@@ -2,6 +2,11 @@ PROGRAMA ejemplo ;
 VARIABLES
 x:=0,y,z:=" ": String;
 x:=0,y,z:=' ':char;
+//La felicidad se puede hallar hasta en los más oscuros momentos, si somos capaces de usar bien la luz.
+SUBPROGRAMA segundo (par_1,par_2:String) ;
+INICIO
+LEER(uno_1,dos2);
+FIN ;
 INICIO
 
 ESCRIBIR ( uno 
@@ -9,6 +14,7 @@ ESCRIBIR ( uno
 cuatro := dos*10.0*TRUE*tres+0.0+FALSE;
 ESCRIBIR();
 ESCRIBIR (dos* (10.0+0+0.0)
+
 ,
 uno );
 /////////-

@@ -1,27 +1,23 @@
 PROGRAMA ejemplo ;
 CONSTANTES
-entero = 01;
+entero = 1;
 real = 0.0;
-falso  = FALSE; //comentario a ignorar
-blanco = " ";
-comillaDoble = "\"";
-comillaSimple = '\'';
+falso  = TRUE; //yo mate a Sirius Blaaaack
 VARIABLES
-x:=0,y,z:=" ": String;
+x:=0,y,z:=79: integer;
 x:=0,y,z:=' ':char;
 SUBPROGRAMA primero : char ;
 INICIO
 return TRUE;
 FIN;
-SUBPROGRAMA segundo (par_1,par_2:String) ;
+SUBPROGRAMA el_Charcutero (seddie) ;
 INICIO
-LEER(uno_1,dos2);
+primero(creddie);
 FIN ;
 INICIO
-LEER(uno_1,dos2);
 LEER ( cinco
 );//Draco dormiens nunquam titillandus
-Uno := siete/10.0 OR TRUE+tres+0.0+FALSE;
+Uno := siete>(10.0>TRUE)+tres+0.0+FALSE;
 ESCRIBIR();
 ESCRIBIR (dos* (10.0/0.0+
 tres),

@@ -1,21 +1,14 @@
 PROGRAMA ejemplo ;
-CONSTANTES
-entera = 01;
-real = 0.0;
-cierto = TRUE;
-blanco = " ";
-comillasDobles = "\"";
-comillasSimples = '\'';
-VARIABLES
-x:=0,z:=" ": String;
-x:='0',y,z:=' ':char;
-SUBPROGRAMA primero : char ;
 INICIO
+ESCRIBIR(tres_3,dos2);
+LEER ( dos //- es un comentario hasta final de línea
+);
+Cinco := dos*39.0 AND FALSE*tres/0.7-TRUE;
+LEER(Voldemort);
+ESCRIBIR (quince* (5.0+0+0.0+
+tres),
+uno );
+/////////-
+LEER ( uno);
 return TRUE;
-FIN;
-SUBPROGRAMA segundo (par_1,par_2:String) ;
-INICIO
-LEER(uno_1,dos2);
-FIN ;
-INICIO
 FIN.

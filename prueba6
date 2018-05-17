@@ -1,4 +1,12 @@
 PROGRAMA ejemplo ;
+CONSTANTES
+cteReal = 14.5;
+VARIABLES
+x:='0',y,z:=' ':char;
+SUBPROGRAMA primero : char ;
 INICIO
-return FALSE;
+return TRUE;
+FIN;
+INICIO
+Cinco := dos*39.0 AND FALSE*tres/0.7-TRUE;
 FIN.

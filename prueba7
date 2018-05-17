@@ -1,4 +1,7 @@
 PROGRAMA ejemplo ;
+VARIABLES
+George:="vivo",Fred:="muerto": String;
+Hermione:='q',Ron,Draco:=' ':char;
 INICIO
 ESCRIBIR(tres_3,dos2);
 LEER ( dos //- es un comentario hasta final de línea
